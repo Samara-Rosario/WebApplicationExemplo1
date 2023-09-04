@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplicationExemplo1.Data;
 
@@ -10,9 +11,11 @@ using WebApplicationExemplo1.Data;
 namespace WebApplicationExemplo1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230904205408_v300")]
+    partial class v300
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,12 +84,7 @@ namespace WebApplicationExemplo1.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("unidadeMedidaId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("unidadeMedidaId");
 
                     b.ToTable("produto");
                 });
@@ -130,7 +128,12 @@ namespace WebApplicationExemplo1.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("produtoId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("produtoId");
 
                     b.ToTable("unidadeMedida");
                 });
@@ -146,25 +149,25 @@ namespace WebApplicationExemplo1.Migrations
                     b.Navigation("turma");
                 });
 
-            modelBuilder.Entity("WebApplicationExemplo1.Models.Produto", b =>
+            modelBuilder.Entity("WebApplicationExemplo1.Models.UnidadeMedida", b =>
                 {
-                    b.HasOne("WebApplicationExemplo1.Models.UnidadeMedida", "unidadeMedida")
-                        .WithMany("Produtos")
-                        .HasForeignKey("unidadeMedidaId")
+                    b.HasOne("WebApplicationExemplo1.Models.Produto", "produto")
+                        .WithMany("unidadeMedida")
+                        .HasForeignKey("produtoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("produto");
+                });
+
+            modelBuilder.Entity("WebApplicationExemplo1.Models.Produto", b =>
+                {
                     b.Navigation("unidadeMedida");
                 });
 
             modelBuilder.Entity("WebApplicationExemplo1.Models.Turma", b =>
                 {
                     b.Navigation("Alunos");
-                });
-
-            modelBuilder.Entity("WebApplicationExemplo1.Models.UnidadeMedida", b =>
-                {
-                    b.Navigation("Produtos");
                 });
 #pragma warning restore 612, 618
         }

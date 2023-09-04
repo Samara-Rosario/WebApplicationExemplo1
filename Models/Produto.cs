@@ -5,6 +5,7 @@
         public string Descricao { get; set; }
         public string Estoque { get; set; }
         public string PrecoUnitario { get; set;}
+        public UnidadeMedida unidadeMedida { get; set; }
 
     }
 }
